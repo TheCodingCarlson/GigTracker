@@ -1,0 +1,46 @@
+﻿# Build results
+bin/
+obj/
+out/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio Code workspace settings
+.vscode/
+
+# Rider project files
+.idea/
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# NuGet packages
+*.nupkg
+# The packages folder can be ignored if you use PackageReference
+**/packages/*
+!**/packages/build/
+!**/packages/repositories.config
+
+# Entity Framework Migrations
+**/Migrations/*.Designer.cs
+**/Migrations/*Snapshot.cs
+
+# Dotnet tool restore
+.dotnet/
+
+# Logs
+*.log
+
+# Database files
+*.mdf
+*.ldf
+
+# Others
+*.vspscc
+*.vssscc
+.vs/
+TestResults/
