@@ -1,0 +1,29 @@
+﻿@page "/gigs"
+
+@using GigTracker.Frontend.Services
+
+@inject GigService GigService
+
+<MudTable Items="_gigs">
+    <HeaderContent>
+        <MudTh>Venue</MudTh>
+        <MudTh>Date</MudTh>
+        <MudTh>Band</MudTh>
+        <MudTh>Pay</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd>@context.Venue</MudTd>
+        <MudTd>@context.Date.ToShortDateString()</MudTd>
+        <MudTd>@context.Band?.Name</MudTd>
+        <MudTd>@context.Pay</MudTd>
+    </RowTemplate>
+</MudTable>
+
+@code {
+    private List<Gig> _gigs = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _gigs = await GigService.GetGigsAsync();
+    }
+}

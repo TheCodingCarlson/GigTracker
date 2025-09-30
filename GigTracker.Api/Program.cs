@@ -4,6 +4,17 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add CORS policy
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        policy => policy
+            .WithOrigins("https://localhost:7029") // Frontend URL
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+    );
+});
+
 // Add services to the container.
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
@@ -17,11 +28,11 @@ builder.Services.AddDbContext<GigTrackerDbContext>(options =>
 
 var app = builder.Build();
 
+// Use CORS before MapControllers
+app.UseCors("AllowFrontend");
+
 // Configure the HTTP request pipeline.
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();

@@ -1,4 +1,4 @@
-﻿namespace GigTracker.Api.Models
+﻿namespace GigTracker.Models
 {
     public class BandMember
     {

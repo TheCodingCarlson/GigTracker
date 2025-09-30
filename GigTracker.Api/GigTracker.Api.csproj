@@ -15,4 +15,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\GigTracker.Models\GigTracker.Models.csproj" />
+  </ItemGroup>
+
 </Project>

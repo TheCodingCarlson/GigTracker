@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using GigTracker.Api.Models;
+using GigTracker.Models;
 
 namespace GigTracker.Api.Data
 {

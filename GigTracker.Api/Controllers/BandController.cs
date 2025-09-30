@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using GigTracker.Api.Data;
-using GigTracker.Api.Models;
+using GigTracker.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace GigTracker.Api.Controllers
