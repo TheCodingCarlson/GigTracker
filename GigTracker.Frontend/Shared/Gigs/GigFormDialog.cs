@@ -29,7 +29,7 @@ namespace GigTracker.Frontend.Shared.Gigs
         private Gig _newGig = new();
         private List<Band> _bands = [];
 
-        private void OnClose() => MudDialog?.Close();
+        private void OnClose() => MudDialog?.Cancel();
 
         private async Task OnSubmit()
         {
