@@ -1,0 +1,26 @@
+﻿@page "/gigs"
+
+@using GigTracker.Frontend.Constants
+
+<PageTitle>Gigs</PageTitle>
+
+<div class="my-6 d-flex align-center">
+    <MudText Typo="Typo.h3">Gigs</MudText>
+    <MudSpacer/>
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="OpenCreateGigDialog">
+        Create New Gig
+    </MudButton>
+</div>
+
+<MudDataGrid T="Gig" Items="_gigs" Loading="_isLoading">
+    <Columns>
+        <PropertyColumn Property="x => x.Venue" Title="Venue" />
+        <PropertyColumn Format="@GlobalConstants.DATE_FORMAT" Property="x => x.Date" Title="Date" />
+        <TemplateColumn Title="Band">
+            <CellTemplate>
+                @(context.Item.Band?.Name ?? string.Empty)
+            </CellTemplate>
+        </TemplateColumn>
+        <PropertyColumn Format="@GlobalConstants.CURRENCY_FORMAT" Property="x => x.Pay" Title="Pay" />
+    </Columns>
+</MudDataGrid>
