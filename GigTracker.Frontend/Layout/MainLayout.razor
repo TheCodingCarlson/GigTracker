@@ -2,6 +2,7 @@
 
 @* Required *@
 <MudThemeProvider @bind-IsDarkMode="@_isDarkMode" />
+
 <MudPopoverProvider />
 
 @* Needed for dialogs *@
@@ -13,7 +14,9 @@
 <MudLayout>
     <MudMainContent>
         <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
-            @Body
+            <CascadingValue Value="this">
+                @Body
+            </CascadingValue>
         </MudContainer>
     </MudMainContent>
 </MudLayout>

@@ -11,6 +11,9 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7230") });
 
 builder.Services.AddScoped<GigService>();
+builder.Services.AddScoped<BandService>();
+builder.Services.AddScoped<BandMemberService>();
+builder.Services.AddScoped<DialogService>();
 
 builder.Services.AddMudServices();
 

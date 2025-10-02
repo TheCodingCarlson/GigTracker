@@ -1,0 +1,34 @@
+﻿@page "/gigs"
+
+@using GigTracker.Frontend.Constants
+
+<PageTitle>Gigs</PageTitle>
+
+<div class="my-6 d-flex align-center">
+    <MudText Typo="Typo.h3">Gigs</MudText>
+    <MudSpacer/>
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="OpenCreateGigDialog">
+        Create New Gig
+    </MudButton>
+</div>
+
+<MudDataGrid T="Gig" Items="_gigs" Loading="_isLoading" EditMode="DataGridEditMode.Form">
+    <Columns>
+        <PropertyColumn Property="x => x.Venue" Title="Venue" />
+        <PropertyColumn Format="@GlobalConstants.DATE_FORMAT" Property="x => x.Date" Title="Date" />
+        <TemplateColumn Title="Band">
+            <CellTemplate>
+                @(context.Item.Band?.Name ?? string.Empty)
+            </CellTemplate>
+        </TemplateColumn>
+        <PropertyColumn Format="@GlobalConstants.CURRENCY_FORMAT" Property="x => x.Pay" Title="Pay" />
+        <TemplateColumn Title="Actions" HeaderClass="justify-center">
+            <CellTemplate>
+                <div class="d-flex">
+                    <MudIconButton title="Edit Gig" Size="@Size.Medium" Icon="@Icons.Material.Outlined.Edit" OnClick="@(() => OpenUpdateGigDialog(context.Item))" />
+                    <MudIconButton title="Delete Gig" Size="@Size.Medium" Icon="@Icons.Material.Outlined.Delete" OnClick="@(() => OpenDeleteGigDialog(context.Item.Id))" />
+                </div>
+            </CellTemplate>
+        </TemplateColumn>
+    </Columns>
+</MudDataGrid>

@@ -1,0 +1,38 @@
+﻿@using GigTracker.Frontend.Constants
+
+@if (_isLoading)
+{
+    <Loading />
+}
+else
+{
+    <MudDialog>
+        <DialogContent>
+            <MudForm @ref="_form" @bind-IsValid="@_isFormValid" @bind-Errors="@_formErrors">
+                <MudTextField @bind-Value="_newGig.Venue"
+                              Label="Venue"
+                              Required />
+
+                <MudDatePicker @bind-Date="_newGig.Date"
+                               Label="Date"
+                               Required
+                               DateFormat="@GlobalConstants.DATE_FORMAT" />
+
+                <MudNumericField @bind-Value="_newGig.Pay"
+                                 Label="Pay"
+                                 HideSpinButtons />
+
+                <MudSelect T="int?" @bind-Value="_newGig.BandId" Label="Band" Required>
+                    @foreach (var band in _bands)
+                    {
+                        <MudSelectItem Value="@(band.Id as int?)">@band.Name</MudSelectItem>
+                    }
+                </MudSelect>
+            </MudForm>
+        </DialogContent>
+        <DialogActions>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="OnSubmit">Submit</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Error" OnClick="OnClose">Close</MudButton>
+        </DialogActions>
+    </MudDialog>
+}
