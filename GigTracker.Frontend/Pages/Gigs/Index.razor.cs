@@ -34,7 +34,26 @@ namespace GigTracker.Frontend.Pages.Gigs
             }
         }
 
+        private async Task OnDeleteGigAsync(int gigId)
+        {
+            try
+            {
+                await GigService.DeleteGigAsync(gigId);
+                await GetDataAsync();
+
+                MainLayout?.ShowMessage($"Gig: {gigId} deleted successfully.", MudBlazor.Severity.Success);
+            }
+            catch (Exception ex)
+            {
+                MainLayout?.ShowMessage(ex.Message, MudBlazor.Severity.Error);
+            }
+        }
+
         private void OpenCreateGigDialog() => DialogService.OpenGigFormDialog(GetDataAsync);
+
+        private void OpenUpdateGigDialog(Gig gig) => DialogService.OpenGigFormDialog(GetDataAsync, gig);
+
+        private void OpenDeleteGigDialog(int gigId) => DialogService.OpenDeleteDialogAsync("Gig", gigId, OnDeleteGigAsync);
 
         protected override async Task OnInitializedAsync() => await GetDataAsync();
     }

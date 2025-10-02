@@ -24,13 +24,13 @@ namespace GigTracker.Frontend.Services
             _dialogService.ShowAsync<GigFormDialog>(title, parameters, DialogConstants.DefaultDialogOptions);
         }
 
-        public Task ShowDeleteDialogAsync(string entityName, int entityId, Func<int, Task> onDelete, string? message = null)
+        public Task OpenDeleteDialogAsync(string entityName, int entityId, Func<int, Task> onDelete, string? message = null)
         {
             var parameters = new DialogParameters<DeleteConfirmationDialog>
             {
                 { x => x.EntityName, entityName },
                 { x => x.EntityId, entityId },
-                { x => x.Message, message ?? $"Are you sure you want to delete this {entityName}?" },
+                { x => x.Message, message ?? $"Are you sure you want to delete {entityName}: {entityId}?" },
                 { x => x.OnDelete, EventCallback.Factory.Create(this, onDelete) }
             };
 

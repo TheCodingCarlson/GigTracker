@@ -7,14 +7,9 @@ namespace GigTracker.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class GigController : ControllerBase
+    public class GigController(GigTrackerDbContext context) : ControllerBase
     {
-        private readonly GigTrackerDbContext _context;
-
-        public GigController(GigTrackerDbContext context)
-        {
-            _context = context;
-        }
+        private readonly GigTrackerDbContext _context = context;
 
         // GET: /Gig
         [HttpGet]

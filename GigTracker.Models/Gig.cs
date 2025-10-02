@@ -8,7 +8,7 @@
         public decimal? Pay { get; set; }
 
         // Each gig has a single band
-        public int BandId { get; set; }
+        public int? BandId { get; set; }
         public Band? Band { get; set; }
     }
 }

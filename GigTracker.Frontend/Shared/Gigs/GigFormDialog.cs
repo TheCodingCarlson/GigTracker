@@ -44,14 +44,25 @@ namespace GigTracker.Frontend.Shared.Gigs
 
             try
             {
-                await GigService.CreateGigAsync(_newGig);
+                string successMessage = string.Empty;
+
+                if (ExistingGig is not null)
+                {
+                    await GigService.UpdateGigAsync(_newGig);
+                    successMessage = $"Gig: {ExistingGig.Id} successfully updated";
+                }
+                else
+                {
+                    await GigService.CreateGigAsync(_newGig);
+                    successMessage = "Gig successfully created";
+                }
             
                 if (OnGetDataAsync is not null)
                 {
                     await OnGetDataAsync.Invoke();
                 }
 
-                MainLayout?.ShowMessage("Success", Severity.Success);
+                MainLayout?.ShowMessage(successMessage, Severity.Success);
             }
             catch (Exception ex)
             {
