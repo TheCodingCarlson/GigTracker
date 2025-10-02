@@ -9,5 +9,24 @@
         public const string ENTITY_NAME_GIG = "Gig";
         public const string ENTITY_NAME_BAND = "Band";
         public const string ENTITY_NAME_BANDMEMBER = "Band Member";
+
+        public static readonly string[] MUSICAL_GENRES =
+        [
+            "Rock",
+            "Pop",
+            "Jazz",
+            "Blues",
+            "Classical",
+            "Country",
+            "Hip Hop",
+            "Electronic",
+            "Folk",
+            "Reggae",
+            "Metal",
+            "R&B",
+            "Soul",
+            "Punk",
+            "Funk"
+        ];
     }
 }

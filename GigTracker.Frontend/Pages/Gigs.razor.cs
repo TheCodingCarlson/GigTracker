@@ -1,16 +1,17 @@
-﻿using GigTracker.Frontend.Layout;
+﻿using GigTracker.Frontend.Constants;
+using GigTracker.Frontend.Layout;
 using GigTracker.Frontend.Services;
 using GigTracker.Models;
 using Microsoft.AspNetCore.Components;
 
-namespace GigTracker.Frontend.Pages.Gigs
+namespace GigTracker.Frontend.Pages
 {
-    public partial class Index : ComponentBase
+    public partial class Gigs : ComponentBase
     {
         [CascadingParameter] protected MainLayout? MainLayout { get; set; }
 
         [Inject] public required GigService GigService { get; set; }
-        [Inject] public required Services.DialogService DialogService { get; set; }
+        [Inject] public required DialogService DialogService { get; set; }
 
         private bool _isLoading = false;
         private List<Gig> _gigs = [];
@@ -53,7 +54,7 @@ namespace GigTracker.Frontend.Pages.Gigs
 
         private void OpenUpdateGigDialog(Gig gig) => DialogService.OpenGigFormDialog(GetDataAsync, gig);
 
-        private void OpenDeleteGigDialog(int gigId) => DialogService.OpenDeleteDialogAsync("Gig", gigId, OnDeleteGigAsync);
+        private void OpenDeleteGigDialog(int gigId) => DialogService.OpenDeleteDialogAsync(GlobalConstants.ENTITY_NAME_GIG, gigId, OnDeleteGigAsync);
 
         protected override async Task OnInitializedAsync() => await GetDataAsync();
     }

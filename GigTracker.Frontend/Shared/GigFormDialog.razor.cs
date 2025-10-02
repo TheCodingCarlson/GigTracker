@@ -5,7 +5,7 @@ using GigTracker.Models;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
-namespace GigTracker.Frontend.Shared.Gigs
+namespace GigTracker.Frontend.Shared
 {
     public partial class GigFormDialog : ComponentBase
     {
