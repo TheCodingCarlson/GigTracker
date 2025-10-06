@@ -35,6 +35,18 @@ namespace GigTracker.Frontend.Services
 
             _dialogService.ShowAsync<BandFormDialog>(title, parameters, DialogConstants.DefaultDialogOptions);
         }
+        public void OpenBandMemberFormDialog(Func<Task>? onGetDataAsync, BandMember? existingBandMember = null)
+        {
+            var parameters = new DialogParameters<BandMemberFormDialog>
+            {
+                { x => x.OnGetDataAsync, onGetDataAsync },
+                { x => x.ExistingBandMember, existingBandMember }
+            };
+
+            var title = existingBandMember is null ? "Create Band Member" : "Edit Band Member";
+
+            _dialogService.ShowAsync<BandMemberFormDialog>(title, parameters, DialogConstants.DefaultDialogOptions);
+        }
 
         public Task OpenDeleteDialogAsync(string entityName, int entityId, Func<int, Task> onDelete, string? message = null)
         {

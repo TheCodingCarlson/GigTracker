@@ -28,5 +28,16 @@
             "Punk",
             "Funk"
         ];
+
+        public static readonly string[] INSTRUMENTS =
+        [
+            "Guitar",
+            "Bass",
+            "Drums",
+            "Keys",
+            "Vocals",
+            "Saxophone",
+            "Trumpet"
+        ];
     }
 }

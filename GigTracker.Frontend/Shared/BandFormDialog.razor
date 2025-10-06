@@ -10,12 +10,12 @@ else
     <MudDialog>
         <DialogContent>
             <MudForm @ref="_form" @bind-IsValid="@_isFormValid" @bind-Errors="@_formErrors">
-                <MudTextField @bind-Value="_newBand.Name"
+                <MudTextField @bind-Value="_band.Name"
                               Label="Name"
                               Required />
 
                 <MudSelect T="BandMember"
-                           SelectedValues="_newBand.Members"
+                           SelectedValues="_band.Members"
                            SelectedValuesChanged="OnMembersChanged"
                            Label="Band"
                            MultiSelection
@@ -27,14 +27,14 @@ else
                     }
                 </MudSelect>
 
-                <MudDatePicker @bind-Date="_newBand.DateFormed"
+                <MudDatePicker @bind-Date="_band.DateFormed"
                                Label="Date Formed"
                                Required="false"
                                Clearable="true"
                                PickerVariant="PickerVariant.Inline" />
 
                 <MudSelect T="string"
-                           SelectedValues="_newBand.Genres"
+                           SelectedValues="_band.Genres"
                            SelectedValuesChanged="OnGenresChanged"
                            Label="Genres"
                            MultiSelection

@@ -26,14 +26,14 @@ namespace GigTracker.Frontend.Shared
         private string[] _formErrors = [];
 
         private bool _isLoading = false;
-        private Band _newBand = new();
+        private Band _band = new();
         private List<BandMember> _bandMembers = [];
 
         private void OnClose() => MudDialog?.Cancel();
 
-        private void OnMembersChanged(IEnumerable<BandMember> members) => _newBand.Members = [.. members];
+        private void OnMembersChanged(IEnumerable<BandMember> members) => _band.Members = [.. members];
 
-        private void OnGenresChanged(IEnumerable<string> genres) => _newBand.Genres = [.. genres];
+        private void OnGenresChanged(IEnumerable<string> genres) => _band.Genres = [.. genres];
         
         private async Task OnSubmit()
         {
@@ -52,12 +52,12 @@ namespace GigTracker.Frontend.Shared
 
                 if (ExistingBand is not null)
                 {
-                    await BandService.UpdateBandAsync(_newBand);
+                    await BandService.UpdateBandAsync(_band);
                     successMessage = $"Band: {ExistingBand.Id} successfully updated";
                 }
                 else
                 {
-                    await BandService.CreateBandAsync(_newBand);
+                    await BandService.CreateBandAsync(_band);
                     successMessage = "Band successfully created";
                 }
 
@@ -83,7 +83,7 @@ namespace GigTracker.Frontend.Shared
         {
             if (ExistingBand is not null)
             {
-                _newBand = ObjectUtils.DeepClone(ExistingBand);
+                _band = ObjectUtils.DeepClone(ExistingBand);
             }
 
             _isLoading = true;
