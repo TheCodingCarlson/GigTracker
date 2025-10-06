@@ -1,0 +1,54 @@
+﻿@using GigTracker.Frontend.Constants
+@using GigTracker.Models
+
+@if (_isLoading)
+{
+    <Loading />
+}
+else
+{
+    <MudDialog>
+        <DialogContent>
+            <MudForm @ref="_form" @bind-IsValid="@_isFormValid" @bind-Errors="@_formErrors">
+                <MudTextField @bind-Value="_newBand.Name"
+                              Label="Name"
+                              Required />
+
+                <MudSelect T="BandMember"
+                           SelectedValues="_newBand.Members"
+                           SelectedValuesChanged="OnMembersChanged"
+                           Label="Band"
+                           MultiSelection
+                           Required
+                           ToStringFunc="@(m => m == null ? string.Empty : $"{m.FirstName} {m.LastName}")">
+                    @foreach (var bandMember in _bandMembers)
+                    {
+                        <MudSelectItem T="BandMember" Value="bandMember">@($"{bandMember.FirstName} {bandMember.LastName}")</MudSelectItem>
+                    }
+                </MudSelect>
+
+                <MudDatePicker @bind-Date="_newBand.DateFormed"
+                               Label="Date Formed"
+                               Required="false"
+                               Clearable="true"
+                               PickerVariant="PickerVariant.Inline" />
+
+                <MudSelect T="string"
+                           SelectedValues="_newBand.Genres"
+                           SelectedValuesChanged="OnGenresChanged"
+                           Label="Genres"
+                           MultiSelection
+                           Required>
+                    @foreach (var genre in GlobalConstants.MUSICAL_GENRES)
+                    {
+                        <MudSelectItem T="string" Value="genre">@genre</MudSelectItem>
+                    }
+                </MudSelect>
+            </MudForm>
+        </DialogContent>
+        <DialogActions>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="OnSubmit">Submit</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Error" OnClick="OnClose">Close</MudButton>
+        </DialogActions>
+    </MudDialog>
+}

@@ -1,6 +1,5 @@
 ﻿using GigTracker.Frontend.Constants;
 using GigTracker.Frontend.Shared;
-using GigTracker.Frontend.Shared.Gigs;
 using GigTracker.Models;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
@@ -22,6 +21,19 @@ namespace GigTracker.Frontend.Services
             var title = existingGig is null ? "Create Gig" : "Edit Gig";
 
             _dialogService.ShowAsync<GigFormDialog>(title, parameters, DialogConstants.DefaultDialogOptions);
+        }
+
+        public void OpenBandFormDialog(Func<Task>? onGetDataAsync, Band? existingBand = null)
+        {
+            var parameters = new DialogParameters<BandFormDialog>
+            {
+                { x => x.OnGetDataAsync, onGetDataAsync },
+                { x => x.ExistingBand, existingBand }
+            };
+
+            var title = existingBand is null ? "Create Band" : "Edit Band";
+
+            _dialogService.ShowAsync<BandFormDialog>(title, parameters, DialogConstants.DefaultDialogOptions);
         }
 
         public Task OpenDeleteDialogAsync(string entityName, int entityId, Func<int, Task> onDelete, string? message = null)

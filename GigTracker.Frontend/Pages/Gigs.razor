@@ -2,7 +2,7 @@
 
 @using GigTracker.Frontend.Constants
 
-<PageTitle>Gigs</PageTitle>
+<PageTitle>Gig Tracker - Gigs</PageTitle>
 
 <div class="my-6 d-flex align-center">
     <MudText Typo="Typo.h3">Gigs</MudText>
@@ -13,6 +13,9 @@
 </div>
 
 <MudDataGrid T="Gig" Items="_gigs" Loading="_isLoading" EditMode="DataGridEditMode.Form">
+    <NoRecordsContent>
+        <MudAlert Class="my-2" Severity="Severity.Info">No gigs available</MudAlert>
+    </NoRecordsContent>
     <Columns>
         <PropertyColumn Property="x => x.Venue" Title="Venue" />
         <PropertyColumn Format="@GlobalConstants.DATE_FORMAT" Property="x => x.Date" Title="Date" />
@@ -31,4 +34,7 @@
             </CellTemplate>
         </TemplateColumn>
     </Columns>
+    <PagerContent>
+        <MudDataGridPager T="Gig" />
+    </PagerContent>
 </MudDataGrid>

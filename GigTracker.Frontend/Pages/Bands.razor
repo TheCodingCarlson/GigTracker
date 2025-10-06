@@ -1,0 +1,34 @@
+﻿@page "/bands"
+
+@using GigTracker.Frontend.Constants
+
+<PageTitle>Gig Tracker - Bands</PageTitle>
+
+<div class="my-6 d-flex align-center">
+    <MudText Typo="Typo.h3">Bands</MudText>
+    <MudSpacer />
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="OpenCreateBandDialog">
+        Create New Band
+    </MudButton>
+</div>
+
+<MudDataGrid T="Band" Items="_bands" Loading="_isLoading" EditMode="DataGridEditMode.Form">
+    <NoRecordsContent>
+        <MudAlert Class="my-2" Severity="Severity.Info">No bands available</MudAlert>
+    </NoRecordsContent>
+    <Columns>
+        <PropertyColumn Property="x => x.Name" Title="Name" />
+        <PropertyColumn Property="@(x => string.Join(", ", x.Genres))" Title="Genres" />
+        <TemplateColumn Title="Actions" HeaderClass="justify-center">
+            <CellTemplate>
+                <div class="d-flex">
+                    <MudIconButton title="Edit Band" Size="@Size.Medium" Icon="@Icons.Material.Outlined.Edit" OnClick="@(() => OpenUpdateBandDialog(context.Item))" />
+                    <MudIconButton title="Delete Band" Size="@Size.Medium" Icon="@Icons.Material.Outlined.Delete" OnClick="@(() => OpenDeleteBandDialog(context.Item.Id))" />
+                </div>
+            </CellTemplate>
+        </TemplateColumn>
+    </Columns>
+    <PagerContent>
+        <MudDataGridPager T="Band" />
+    </PagerContent>
+</MudDataGrid>

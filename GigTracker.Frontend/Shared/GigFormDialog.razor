@@ -25,7 +25,7 @@ else
                 <MudSelect T="int?" @bind-Value="_newGig.BandId" Label="Band" Required>
                     @foreach (var band in _bands)
                     {
-                        <MudSelectItem Value="@(band.Id as int?)">@band.Name</MudSelectItem>
+                        <MudSelectItem T="int?" Value="@band.Id">@band.Name</MudSelectItem>
                     }
                 </MudSelect>
             </MudForm>
