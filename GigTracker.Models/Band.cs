@@ -4,6 +4,7 @@
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
+        public DateTime? DateFormed { get; set; }
         public ICollection<string> Genres { get; set; } = [];
 
         // Navigation property: Many-to-many with BandMember

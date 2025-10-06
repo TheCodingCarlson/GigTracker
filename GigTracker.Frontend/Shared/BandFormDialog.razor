@@ -14,14 +14,31 @@ else
                               Label="Name"
                               Required />
 
-                <MudSelect T="ICollection<BandMember>" @bind-Value="_newBand.Members" Label="Band" MultiSelection Required>
+                <MudSelect T="BandMember"
+                           SelectedValues="_newBand.Members"
+                           SelectedValuesChanged="OnMembersChanged"
+                           Label="Band"
+                           MultiSelection
+                           Required
+                           ToStringFunc="@(m => m == null ? string.Empty : $"{m.FirstName} {m.LastName}")">
                     @foreach (var bandMember in _bandMembers)
                     {
                         <MudSelectItem T="BandMember" Value="bandMember">@($"{bandMember.FirstName} {bandMember.LastName}")</MudSelectItem>
                     }
                 </MudSelect>
 
-                <MudSelect T="ICollection<string>" @bind-Value="_newBand.Genres" Label="Genres" MultiSelection Required>
+                <MudDatePicker @bind-Date="_newBand.DateFormed"
+                               Label="Date Formed"
+                               Required="false"
+                               Clearable="true"
+                               PickerVariant="PickerVariant.Inline" />
+
+                <MudSelect T="string"
+                           SelectedValues="_newBand.Genres"
+                           SelectedValuesChanged="OnGenresChanged"
+                           Label="Genres"
+                           MultiSelection
+                           Required>
                     @foreach (var genre in GlobalConstants.MUSICAL_GENRES)
                     {
                         <MudSelectItem T="string" Value="genre">@genre</MudSelectItem>

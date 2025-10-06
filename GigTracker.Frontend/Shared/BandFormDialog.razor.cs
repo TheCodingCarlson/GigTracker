@@ -31,6 +31,10 @@ namespace GigTracker.Frontend.Shared
 
         private void OnClose() => MudDialog?.Cancel();
 
+        private void OnMembersChanged(IEnumerable<BandMember> members) => _newBand.Members = [.. members];
+
+        private void OnGenresChanged(IEnumerable<string> genres) => _newBand.Genres = [.. genres];
+        
         private async Task OnSubmit()
         {
             if (_form is not null)
