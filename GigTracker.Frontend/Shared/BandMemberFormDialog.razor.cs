@@ -7,16 +7,16 @@ using MudBlazor;
 
 namespace GigTracker.Frontend.Shared
 {
-    public partial class GigFormDialog : ComponentBase
+    public partial class BandMemberFormDialog : ComponentBase
     {
         [CascadingParameter] protected MainLayout? MainLayout { get; set; }
         [CascadingParameter] private IMudDialogInstance? MudDialog { get; set; }
 
-        [Inject] public required GigService GigService { get; set; }
         [Inject] public required BandService BandService { get; set; }
+        [Inject] public required BandMemberService BandMemberService { get; set; }
 
         [Parameter]
-        public Gig? ExistingGig { get; set; }
+        public BandMember? ExistingBandMember { get; set; }
 
         [Parameter]
         public Func<Task>? OnGetDataAsync { get; set; }
@@ -26,10 +26,12 @@ namespace GigTracker.Frontend.Shared
         private string[] _formErrors = [];
 
         private bool _isLoading = false;
-        private Gig _gig = new();
+        private BandMember _bandMember = new();
         private List<Band> _bands = [];
 
         private void OnClose() => MudDialog?.Cancel();
+
+        private void OnInstrumentsChanged(IEnumerable<string> instruments) => _bandMember.Instruments = [.. instruments];
 
         private async Task OnSubmit()
         {
@@ -46,17 +48,17 @@ namespace GigTracker.Frontend.Shared
             {
                 string successMessage = string.Empty;
 
-                if (ExistingGig is not null)
+                if (ExistingBandMember is not null)
                 {
-                    await GigService.UpdateGigAsync(_gig);
-                    successMessage = $"Gig: {ExistingGig.Id} successfully updated";
+                    await BandMemberService.UpdateBandMemberAsync(_bandMember);
+                    successMessage = $"Band Member: {ExistingBandMember.Id} successfully updated";
                 }
                 else
                 {
-                    await GigService.CreateGigAsync(_gig);
-                    successMessage = "Gig successfully created";
+                    await BandMemberService.CreateBandMemberAsync(_bandMember);
+                    successMessage = "Band Member successfully created";
                 }
-            
+
                 if (OnGetDataAsync is not null)
                 {
                     await OnGetDataAsync.Invoke();
@@ -77,9 +79,9 @@ namespace GigTracker.Frontend.Shared
 
         protected override async Task OnInitializedAsync()
         {
-            if (ExistingGig is not null)
+            if (ExistingBandMember is not null)
             {
-                _gig = ObjectUtils.DeepClone(ExistingGig);
+                _bandMember = ObjectUtils.DeepClone(ExistingBandMember);
             }
 
             _isLoading = true;
@@ -94,7 +96,7 @@ namespace GigTracker.Frontend.Shared
             }
             finally
             {
-                 _isLoading = false;
+                _isLoading = false;
             }
         }
     }

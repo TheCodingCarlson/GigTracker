@@ -6,15 +6,15 @@ using Microsoft.AspNetCore.Components;
 
 namespace GigTracker.Frontend.Pages
 {
-    public partial class Bands : ComponentBase
+    public partial class BandMembers : ComponentBase
     {
         [CascadingParameter] protected MainLayout? MainLayout { get; set; }
 
-        [Inject] public required BandService BandService { get; set; }
+        [Inject] public required BandMemberService BandMemberService { get; set; }
         [Inject] public required DialogService DialogService { get; set; }
 
         private bool _isLoading = false;
-        private List<Band> _bands = [];
+        private List<BandMember> _bandMembers = [];
 
         private async Task GetDataAsync()
         {
@@ -22,7 +22,8 @@ namespace GigTracker.Frontend.Pages
 
             try
             {
-                _bands = [.. (await BandService.GetBandsAsync()).OrderBy(b => b.Name)];
+                _bandMembers = [.. (await BandMemberService.GetBandMembersAsync())
+                    .OrderBy(bm => bm.LastName).ThenBy(bm => bm.FirstName)];
             }
             catch (Exception ex)
             {
@@ -35,14 +36,14 @@ namespace GigTracker.Frontend.Pages
             }
         }
 
-        private async Task OnDeleteBandAsync(int bandId)
+        private async Task OnDeleteBandAsync(int bandMemberId)
         {
             try
             {
-                await BandService.DeleteBandAsync(bandId);
+                await BandMemberService.DeleteBandMemberAsync(bandMemberId);
                 await GetDataAsync();
 
-                MainLayout?.ShowMessage($"Band: {bandId} deleted successfully.", MudBlazor.Severity.Success);
+                MainLayout?.ShowMessage($"Band Member: {bandMemberId} deleted successfully.", MudBlazor.Severity.Success);
             }
             catch (Exception ex)
             {
@@ -50,11 +51,11 @@ namespace GigTracker.Frontend.Pages
             }
         }
 
-        private void OpenCreateBandDialog() => DialogService.OpenBandFormDialog(GetDataAsync);
+        private void OpenCreateBandMemberDialog() => DialogService.OpenBandMemberFormDialog(GetDataAsync);
 
-        private void OpenUpdateBandDialog(Band band) => DialogService.OpenBandFormDialog(GetDataAsync, band);
+        private void OpenUpdateBandMemberDialog(BandMember bandMember) => DialogService.OpenBandMemberFormDialog(GetDataAsync, bandMember);
 
-        private void OpenDeleteBandDialog(int bandId) => DialogService.OpenDeleteDialogAsync(GlobalConstants.ENTITY_NAME_BAND, bandId, OnDeleteBandAsync);
+        private void OpenDeleteBandMemberDialog(int bandId) => DialogService.OpenDeleteDialogAsync(GlobalConstants.ENTITY_NAME_BANDMEMBER, bandId, OnDeleteBandAsync);
 
         protected override async Task OnInitializedAsync() => await GetDataAsync();
     }

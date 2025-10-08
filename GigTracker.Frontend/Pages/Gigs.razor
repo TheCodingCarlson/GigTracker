@@ -1,5 +1,4 @@
 ﻿@page "/gigs"
-
 @using GigTracker.Frontend.Constants
 
 <PageTitle>Gig Tracker - Gigs</PageTitle>
@@ -12,7 +11,7 @@
     </MudButton>
 </div>
 
-<MudDataGrid T="Gig" Items="_gigs" Loading="_isLoading" EditMode="DataGridEditMode.Form">
+<MudDataGrid T="Gig" Items="_gigs" Loading="_isLoading">
     <NoRecordsContent>
         <MudAlert Class="my-2" Severity="Severity.Info">No gigs available</MudAlert>
     </NoRecordsContent>

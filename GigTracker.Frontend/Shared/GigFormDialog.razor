@@ -9,20 +9,20 @@ else
     <MudDialog>
         <DialogContent>
             <MudForm @ref="_form" @bind-IsValid="@_isFormValid" @bind-Errors="@_formErrors">
-                <MudTextField @bind-Value="_newGig.Venue"
+                <MudTextField @bind-Value="_gig.Venue"
                               Label="Venue"
                               Required />
 
-                <MudDatePicker @bind-Date="_newGig.Date"
+                <MudDatePicker @bind-Date="_gig.Date"
                                Label="Date"
                                Required
                                DateFormat="@GlobalConstants.DATE_FORMAT" />
 
-                <MudNumericField @bind-Value="_newGig.Pay"
+                <MudNumericField @bind-Value="_gig.Pay"
                                  Label="Pay"
                                  HideSpinButtons />
 
-                <MudSelect T="int?" @bind-Value="_newGig.BandId" Label="Band" Required>
+                <MudSelect T="int?" @bind-Value="_gig.BandId" Label="Band" Required>
                     @foreach (var band in _bands)
                     {
                         <MudSelectItem T="int?" Value="@band.Id">@band.Name</MudSelectItem>

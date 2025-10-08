@@ -1,0 +1,36 @@
+﻿@page "/bandmembers"
+@using GigTracker.Frontend.Constants
+
+<PageTitle>Gig Tracker - Band Members</PageTitle>
+
+<div class="my-6 d-flex align-center">
+    <MudText Typo="Typo.h3">Band Members</MudText>
+    <MudSpacer />
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="OpenCreateBandMemberDialog">
+        Create New Band Member
+    </MudButton>
+</div>
+
+<MudDataGrid T="BandMember" Items="_bandMembers" Loading="_isLoading" EditMode="DataGridEditMode.Form">
+    <NoRecordsContent>
+        <MudAlert Class="my-2" Severity="Severity.Info">No bands available</MudAlert>
+    </NoRecordsContent>
+    <Columns>
+        <PropertyColumn Property="x => x.FirstName" Title="First Name" />
+        <PropertyColumn Property="x => x.LastName" Title="Last Name" />
+        <PropertyColumn Property="x => x.Age" Title="Age" />
+        <PropertyColumn Property="@(x => string.Join(", ", x.Instruments))" Title="Instruments" />
+        <PropertyColumn Property="@(x => string.Join(", ", x.Bands.Select(x => x.Name)))" Title="Bands" />
+        <TemplateColumn Title="Actions" HeaderClass="justify-center">
+            <CellTemplate>
+                <div class="d-flex">
+                    <MudIconButton title="Edit Band Member" Size="@Size.Medium" Icon="@Icons.Material.Outlined.Edit" OnClick="@(() => OpenUpdateBandMemberDialog(context.Item))" />
+                    <MudIconButton title="Delete Band Member" Size="@Size.Medium" Icon="@Icons.Material.Outlined.Delete" OnClick="@(() => OpenDeleteBandMemberDialog(context.Item.Id))" />
+                </div>
+            </CellTemplate>
+        </TemplateColumn>
+    </Columns>
+    <PagerContent>
+        <MudDataGridPager T="BandMember" />
+    </PagerContent>
+</MudDataGrid>

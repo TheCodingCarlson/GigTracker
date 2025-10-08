@@ -1,0 +1,43 @@
+﻿@using GigTracker.Frontend.Constants
+@using GigTracker.Models
+
+@if (_isLoading)
+{
+    <Loading />
+}
+else
+{
+    <MudDialog>
+        <DialogContent>
+            <MudForm @ref="_form" @bind-IsValid="@_isFormValid" @bind-Errors="@_formErrors">
+                <MudTextField @bind-Value="_bandMember.FirstName"
+                              Label="First Name"
+                              Required />
+
+                <MudTextField @bind-Value="_bandMember.LastName"
+                              Label="Last Name"
+                              Required />
+
+                <MudNumericField @bind-Value="_bandMember.Age"
+                              Label="Age"
+                              Required />
+
+                <MudSelect T="string"
+                           SelectedValues="_bandMember.Instruments"
+                           SelectedValuesChanged="OnInstrumentsChanged"
+                           Label="Instruments"
+                           MultiSelection
+                           Required>
+                    @foreach (var instrument in GlobalConstants.INSTRUMENTS)
+                    {
+                        <MudSelectItem T="string" Value="instrument">@instrument</MudSelectItem>
+                    }
+                </MudSelect>
+            </MudForm>
+        </DialogContent>
+        <DialogActions>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="OnSubmit">Submit</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Error" OnClick="OnClose">Close</MudButton>
+        </DialogActions>
+    </MudDialog>
+}
