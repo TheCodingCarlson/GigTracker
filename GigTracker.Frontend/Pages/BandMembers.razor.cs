@@ -22,7 +22,8 @@ namespace GigTracker.Frontend.Pages
 
             try
             {
-                _bandMembers = await BandMemberService.GetBandMembersAsync();
+                _bandMembers = [.. (await BandMemberService.GetBandMembersAsync())
+                    .OrderBy(bm => bm.LastName).ThenBy(bm => bm.FirstName)];
             }
             catch (Exception ex)
             {

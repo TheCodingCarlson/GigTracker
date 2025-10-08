@@ -22,7 +22,7 @@ namespace GigTracker.Frontend.Pages
 
             try
             {
-                _bands = await BandService.GetBandsAsync();
+                _bands = [.. (await BandService.GetBandsAsync()).OrderBy(b => b.Name)];
             }
             catch (Exception ex)
             {
