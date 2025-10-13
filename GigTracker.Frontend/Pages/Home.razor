@@ -13,10 +13,10 @@
 {
     <Loading />
 }
-else
+else if (_gigsThisYear.Any())
 {
     <MudAlert Class="my-4" Severity="Severity.Info">
-        So far this year you have played <b>@_gigsThisYear.Count</b> gig@(_gigsThisYear.Count > 1 ? "s" : string.Empty) with <b>@BandsThisYearCount</b> band@(BandsThisYearCount > 1 ? "s" : string.Empty).
+        So far this year you have played <b>@_gigsThisYear.Count</b> gig@(_gigsThisYear.Count > 1 ? "s" : string.Empty) with <b>@_bandsThisYear.Count</b> band@(_bandsThisYear.Count > 1 ? "s" : string.Empty).
     </MudAlert>
 
     <MudPaper>

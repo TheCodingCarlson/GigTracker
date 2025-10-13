@@ -14,11 +14,10 @@ namespace GigTracker.Frontend.Pages
         [Inject] public required GigService GigService { get; set; }
 
         private List<Gig> _gigsThisYear = [];
+        private List<Band> _bandsThisYear = [];
         private string[] _months = [];
         private List<ChartSeries> _chartData = [];
         private bool _isLoading = false;
-
-        private int BandsThisYearCount => _gigsThisYear.Select(g => g.Band).Distinct().Count();
 
         protected override async Task OnInitializedAsync()
         {
@@ -36,27 +35,26 @@ namespace GigTracker.Frontend.Pages
                 _months = [.. monthNames.Where(m => _gigsThisYear.Any(g => g.Date?.ToString("MMM") == m))];
 
                 // Extract unique bands from gigs
-                var distinctBands = _gigsThisYear
-                    .Where(g => g.Band != null)
+                _bandsThisYear = _gigsThisYear
                     .Select(g => g.Band!)
-                    .Distinct()
+                    .DistinctBy(g => g.Name)
                     .ToList();
 
                 // Build a lookup for (band, month) => count
                 var gigLookup = _gigsThisYear
                     .Where(g => g.Band != null && g.Date != null)
-                    .GroupBy(g => (Band: g.Band!, Month: g.Date?.ToString("MMM")))
+                    .GroupBy(g => (Band: g.Band!.Name, Month: g.Date?.ToString("MMM")))
                     .ToDictionary(g => g.Key, g => g.Count());
 
                 // Prepare chart data
-                _chartData = [.. distinctBands.Select(band =>
+                _chartData = [.. _bandsThisYear.Select(band =>
                 {
                     return new ChartSeries
                     {
-                        Name = band.Name ?? "Unknown",
+                        Name = band?.Name ?? "Unknown",
                         Data = [.. _months.Select(month =>
                         {
-                            gigLookup.TryGetValue((band, month), out var count);
+                            gigLookup.TryGetValue((band!.Name, month), out var count);
                             return (double)count;
                         })]
                     };
