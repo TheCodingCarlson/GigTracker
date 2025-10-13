@@ -26,7 +26,9 @@
             "R&B",
             "Soul",
             "Punk",
-            "Funk"
+            "Funk",
+            "Indie",
+            "Acoustic"
         ];
 
         public static readonly string[] INSTRUMENTS =

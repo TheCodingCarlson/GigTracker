@@ -1,5 +1,25 @@
 ﻿@page "/"
+@using GigTracker.Frontend.Shared
 
 <PageTitle>Gig Tracker</PageTitle>
 
 <MudText Typo="Typo.h3">Home</MudText>
+
+<MudText Typo="Typo.body1" Class="my-4">
+    Welcome to Gig Tracker! Use the navigation menu to manage your bands and gigs.
+</MudText>
+
+@if (_isLoading)
+{
+    <Loading />
+}
+else
+{
+    <MudAlert Class="my-4" Severity="Severity.Info">
+        So far this year you have played <b>@_gigsThisYear.Count</b> gig@(_gigsThisYear.Count > 1 ? "s" : string.Empty) with <b>@BandsThisYearCount</b> band@(BandsThisYearCount > 1 ? "s" : string.Empty).
+    </MudAlert>
+
+    <MudPaper>
+        <MudChart ChartType="ChartType.Bar" ChartSeries="@_chartData" XAxisLabels="@_months" Width="650px" Height="350px" Style="position: relative; margin: 0 auto;"></MudChart>
+    </MudPaper>
+}
