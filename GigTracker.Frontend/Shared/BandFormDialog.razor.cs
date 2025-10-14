@@ -90,7 +90,8 @@ namespace GigTracker.Frontend.Shared
 
             try
             {
-                _bandMembers = await BandMemberService.GetBandMembersAsync();
+                _bandMembers = [.. (await BandMemberService.GetBandMembersAsync())
+                    .OrderBy(m => m.FirstName).ThenBy(m => m.LastName)];
             }
             catch (Exception ex)
             {

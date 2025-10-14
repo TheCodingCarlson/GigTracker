@@ -22,7 +22,7 @@ namespace GigTracker.Frontend.Pages
 
             try
             {
-                _gigs = await GigService.GetGigsAsync();
+                _gigs = [.. (await GigService.GetGigsAsync()).OrderByDescending(g => g.Date)];
             }
             catch (Exception ex)
             {

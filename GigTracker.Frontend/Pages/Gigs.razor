@@ -16,9 +16,9 @@
         <MudAlert Class="my-2" Severity="Severity.Info">No gigs available</MudAlert>
     </NoRecordsContent>
     <Columns>
-        <PropertyColumn Property="x => x.Venue" Title="Venue" />
+        <PropertyColumn Property="x => x.Venue" Title="Venue" Sortable="true"  />
         <PropertyColumn Format="@GlobalConstants.DATE_FORMAT" Property="x => x.Date" Title="Date" />
-        <TemplateColumn Title="Band">
+        <TemplateColumn Title="Band" Sortable="true" SortBy="x => x.Band?.Name">
             <CellTemplate>
                 @(context.Item.Band?.Name ?? string.Empty)
             </CellTemplate>
