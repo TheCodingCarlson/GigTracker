@@ -3,7 +3,6 @@ using GigTracker.Frontend.Services;
 using GigTracker.Models;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using System.Globalization;
 
 namespace GigTracker.Frontend.Pages
 {
@@ -13,10 +12,10 @@ namespace GigTracker.Frontend.Pages
 
         [Inject] public required GigService GigService { get; set; }
 
-        private List<Gig> _gigsThisYear = [];
-        private List<Band> _bandsThisYear = [];
-        private string[] _months = [];
-        private List<ChartSeries> _chartData = [];
+        private record BandGigGroup(string BandName, double Count);
+
+        private List<Gig> _gigs = [];
+        private List<BandGigGroup> _bandGigGroups = [];
         private bool _isLoading = false;
 
         protected override async Task OnInitializedAsync()
@@ -25,40 +24,14 @@ namespace GigTracker.Frontend.Pages
 
             try
             {
-                _gigsThisYear = [.. (await GigService.GetGigsAsync()).Where(g => g.Date?.Year == DateTime.Now.Year)];
+                _gigs = [.. (await GigService.GetGigsAsync()).Where(g => g.Date?.Year == DateTime.Now.Year)];
 
-                // Get all months present in the gigs, in calendar order
-                var monthNames = DateTimeFormatInfo.CurrentInfo!.AbbreviatedMonthNames
-                    .Where(m => !string.IsNullOrEmpty(m))
-                    .ToArray();
-
-                _months = [.. monthNames.Where(m => _gigsThisYear.Any(g => g.Date?.ToString("MMM") == m))];
-
-                // Extract unique bands from gigs
-                _bandsThisYear = _gigsThisYear
-                    .Select(g => g.Band!)
-                    .DistinctBy(g => g.Name)
-                    .ToList();
-
-                // Build a lookup for (band, month) => count
-                var gigLookup = _gigsThisYear
-                    .Where(g => g.Band != null && g.Date != null)
-                    .GroupBy(g => (Band: g.Band!.Name, Month: g.Date?.ToString("MMM")))
-                    .ToDictionary(g => g.Key, g => g.Count());
-
-                // Prepare chart data
-                _chartData = [.. _bandsThisYear.Select(band =>
-                {
-                    return new ChartSeries
-                    {
-                        Name = band?.Name ?? "Unknown",
-                        Data = [.. _months.Select(month =>
-                        {
-                            gigLookup.TryGetValue((band!.Name, month), out var count);
-                            return (double)count;
-                        })]
-                    };
-                }).OrderBy(d => d.Name)];
+                // Group gigs by band name and count occurrences
+                _bandGigGroups = [.. _gigs
+                    .Where(g => g.Band != null)
+                    .GroupBy(g => g.Band!.Name)
+                    .Select(group => new BandGigGroup(group.Key, group.Count()))
+                    .OrderBy(b => b.BandName)];
             }
             catch (Exception ex)
             {

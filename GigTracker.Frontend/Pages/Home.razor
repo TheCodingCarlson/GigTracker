@@ -13,13 +13,20 @@
 {
     <Loading />
 }
-else if (_gigsThisYear.Any())
+else if (_gigs.Any())
 {
     <MudAlert Class="my-4" Severity="Severity.Info">
-        So far this year you have played <b>@_gigsThisYear.Count</b> gig@(_gigsThisYear.Count > 1 ? "s" : string.Empty) with <b>@_bandsThisYear.Count</b> band@(_bandsThisYear.Count > 1 ? "s" : string.Empty).
+        So far this year you have played <b>@_gigs.Count</b> gig@(_gigs.Count > 1 ? "s" : string.Empty) with <b>@_bandGigGroups.Count</b> band@(_bandGigGroups.Count > 1 ? "s" : string.Empty).
     </MudAlert>
 
-    <MudPaper>
-        <MudChart ChartType="ChartType.Bar" ChartSeries="@_chartData" XAxisLabels="@_months" Width="650px" Height="350px" Style="position: relative; margin: 0 auto;"></MudChart>
+    <MudPaper Class="my-2">
+        <MudChart ChartType="ChartType.Pie"
+                  InputData="@(_bandGigGroups.Select(bg => bg.Count).ToArray())"
+                  InputLabels="@(_bandGigGroups.Select(bg => bg.BandName).ToArray())"
+                  Width="350px"
+                  Height="350px"
+                  Class="py-4"
+                  Style="position: relative; margin: 0 auto;">
+        </MudChart>
     </MudPaper>
 }
